@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You 🖤</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background: radial-gradient(circle at top, #1a0000, #000);
+  color: white;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* Floating Hearts */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 18px;
+  animation: floatUp linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-110vh); }
+}
+
+/* Heading */
+h1 {
+  margin-top: 24px;
+  font-size: 40px;
+  text-shadow: 0 0 20px rgba(255,0,60,0.6);
+}
+
+.container {
+  padding: 18px 20px 60px 20px;
+}
+
+/* Cards Layout */
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+/* Flip Card */
+.flip-card {
+  background: transparent;
+  width: 220px;
+  height: 160px;
+  perspective: 1000px;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-front, .flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backface-visibility: hidden;
+  padding: 14px;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+/* Default dark card look (preview area inherits body) */
+.flip-front {
+  background: rgba(255,0,60,0.08);
+  border: 1px solid rgba(255,0,60,0.18);
+  box-shadow: 0 6px 18px rgba(255,0,60,0.08);
+  color: #240006;
+}
+
+.flip-back {
+  background: rgba(0,0,0,0.85);
+  border: 1px solid rgba(255,0,60,0.18);
+  transform: rotateY(180deg);
+  color: #ffdfe6;
+}
+
+/* Buttons */
+button {
+  margin-top: 20px;
+  padding: 12px 22px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #ff003c, #ff4d6d);
+  color: white;
+  box-shadow: 0 0 20px rgba(255,0,60,0.4);
+}
+
+button:hover { transform: scale(1.04); }
+
+/* Booklet layout */
+.book {
+  width: 92%;
+  max-width: 1000px;
+  margin: 26px auto;
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+  perspective: 1400px;
+}
+.page {
+  flex: 1 1 0;
+  background: linear-gradient(180deg,#fffefc,#fbf7f2);
+  color: #1b1b1b;
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.6);
+  transform-origin: left center;
+}
+.spine {
+  width: 18px;
+  background: linear-gradient(90deg,#2b0a0a,#3a1111);
+  border-radius: 6px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
+}
+
+/* Make cards look like paper inside the page */
+.page .flip-front {
+  background: linear-gradient(180deg,#fff,#fffef8);
+  border: 1px solid rgba(0,0,0,0.06);
+  color: #1b1b1b;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+.page .flip-back {
+  background: linear-gradient(180deg,#fffef8,#fff);
+  border: 1px solid rgba(0,0,0,0.06);
+  color: #111;
+}
+
+/* Password Section inside page */
+#passwordSection { margin-top: 6px; }
+
+input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.08);
+  margin-top: 10px;
+  text-align: center;
+  width: 160px;
+}
+
+#allCards { display: none; }
+
+#unlockMsg {
+  display: none;
+  font-size: 22px;
+  margin-top: 18px;
+  color: #8b2a2a;
+}
+
+#error { color: #b22a2a; margin-top: 10px; }
+</style>
+</head>
+
+<body>
+
+<h1>My Gifts For You 🖤</h1>
+
+<div class="container">
+
+<!-- Booklet: left page (preview) + spine + right page (all cards) -->
+<div class="book">
+  <div class="page" id="leftPage">
+    <h2 style="margin-top:0;color:#8b2a2a;">Preview</h2>
+
+    <!-- Preview Cards -->
+    <div id="previewCards" class="cards">
+
+      <div class="flip-card">
+        <div class="flip-inner">
+          <div class="flip-front">🌹 Eternal Rose</div>
+          <div class="flip-back">My Promise to you that i will be Forever Yours</div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-inner">
+          <div class="flip-front">cheezy balls </div>
+          <div class="flip-back">at first i thought i should get you a chocolate but then i remembered that you dont like it so here we are i am giving you your favorite cheezy balls i hope you like it </div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-inner">
+          <div class="flip-front">💌 Love Letter</div>
+          <div class="flip-back">i know that you would have like a physcial one but i wanna give you something that you can always keep with you</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="spine" aria-hidden="true"></div>
+
+  <div class="page" id="rightPage">
+    <h2 style="margin-top:0;color:#8b2a2a;">Booklet</h2>
+    <!-- Password & Unlock area inside right page -->
+    <div id="passwordSection">
+      <h3>Enter Our Anniversary 🖤</h3>
+      <input type="password" id="passwordInput" placeholder="DDMMYYYY">
+      <br>
+      <button onclick="checkPassword()">Unlock 🖤</button>
+      <div id="error"></div>
+    </div>
+
+    <!-- All Cards -->
+    <div id="allCards" class="cards">
+
+      <div class="flip-card">
+        <div class="flip-inner">
+          <div class="flip-front">Our first meet❤️</div>
+          <div class="flip-back">I Still Remember We I First Saw You this feels like yesterday when we first started talking i still remember you wearing a black frock,black bottom and black duppatta.It feels like yesterday when i first hugged you I hope you still remember all of it,days that we spent together those were the best days of my life </div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-inner">
+          <div class="flip-front">🍕 Date </div>
+          <div class="flip-back">WILL YOU GO ON A DATE WITH ME AFTER OUR EXAMS </div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-inner">
+          <div class="flip-front">💍 Promise Card</div>
+          <div class="flip-back">ITS MY WISH THAT WE SHARE OUR FUTURE TOGETHER LIKE A REAL COUPLES I HOPE THAT ITS YOURS TOO SO LETS MAKE A PROMISE THAT WE WILL LOVE EACHOTHER NO MATTER WHAT  </div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-inner">
+          <div class="flip-front">my letter to you 🖤</div>
+          <div class="flip-back">its been 2 year i cant imagine to me its jus yesterday when we first met i wanna say to you i know during these days i wasnt able to do anything for you i am really ashmed cuz of that i will make up to that i promise you that and i also know that i made you cry so many times i will make up to that also spekaing of which i Remember every sec every min that we spent together i really wanna say you thankyou for everything you did the person i am right now is because of you.You made me realise what it really means to love someone ik you would have preffered a hand written letter but i wanted to show this ik this isnt much but a token of love and gratitude from me i wanted o give you a thing that you can always keep close to yourself so i came up with this i jus wanted you to know that i am so in love with you i cant explain I read a quote and it said trust an overthinker when he says he loves you because they have thought about every reason not to </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="unlockMsg">Congratulations you knew ❤️</div>
+  </div>
+</div>
+
+<button onclick="showPassword()">View All Gift Cards 🎁</button>
+
+</div>
+
+<script>
+/* Floating Hearts Generator */
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "❤";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = (4 + Math.random() * 6) + "s";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 10000);
+}
+setInterval(createHeart, 800);
+
+/* Password System */
+const correctPassword = "04122025"; // coded password
+
+function showPassword() {
+  // reveal password area then autofill and attempt unlock
+  const ps = document.getElementById("passwordSection");
+  ps.style.display = "block";
+  const input = document.getElementById("passwordInput");
+  input.value = correctPassword; // prefill coded password
+  // attempt unlock automatically for convenience
+  setTimeout(() => checkPassword(), 350);
+}
+
+function checkPassword() {
+  const input = document.getElementById("passwordInput").value;
+
+  if (input === correctPassword) {
+    document.getElementById("allCards").style.display = "flex";
+    document.getElementById("passwordSection").style.display = "none";
+    document.getElementById("unlockMsg").style.display = "block";
+    document.getElementById("error").innerText = "";
+  } else {
+    document.getElementById("error").innerText = "Wrong anniversary 🖤";
+  }
+}
+</script>
+
+</body>
+</html>
