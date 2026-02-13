@@ -1,313 +1,502 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>For You 🖤</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You 🖤</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-  background: radial-gradient(circle at top, #1a0000, #000);
-  color: white;
-  text-align: center;
-  overflow-x: hidden;
-}
+        body {
+            background: linear-gradient(135deg, #0a0a0a, #1a0505, #0f0f0f);
+            color: white;
+            font-family: 'Georgia', 'Segoe UI', serif;
+            text-align: center;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-/* Floating Hearts */
-.heart {
-  position: fixed;
-  bottom: -20px;
-  font-size: 18px;
-  animation: floatUp linear infinite;
-  opacity: 0.6;
-}
+        /* Floating Hearts Animation */
+        .heart {
+            position: fixed;
+            bottom: -20px;
+            font-size: 24px;
+            animation: floatUp linear infinite;
+            opacity: 0.7;
+            z-index: 1;
+        }
 
-@keyframes floatUp {
-  from { transform: translateY(0); }
-  to { transform: translateY(-110vh); }
-}
+        @keyframes floatUp {
+            from { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+            to { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
 
-/* Heading */
-h1 {
-  margin-top: 24px;
-  font-size: 40px;
-  text-shadow: 0 0 20px rgba(255,0,60,0.6);
-}
+        /* Main Title */
+        h1 {
+            margin: 30px 0;
+            font-size: 48px;
+            background: linear-gradient(45deg, #ff1744, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(255,23,68,0.3);
+            letter-spacing: 2px;
+        }
 
-.container {
-  padding: 18px 20px 60px 20px;
-}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-/* Cards Layout */
-.cards {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
-  margin-top: 18px;
-}
+        /* Book Styles */
+        .book-container {
+            perspective: 2000px;
+            margin: 40px auto;
+            width: 100%;
+            max-width: 1000px;
+            height: 600px;
+            position: relative;
+        }
 
-/* Flip Card */
-.flip-card {
-  background: transparent;
-  width: 220px;
-  height: 160px;
-  perspective: 1000px;
-}
+        .book {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.flip-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.7s;
-  transform-style: preserve-3d;
-}
+        .page {
+            position: absolute;
+            width: 48%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a1a, #2d1b1b);
+            border: 2px solid rgba(255,23,68,0.3);
+            border-radius: 8px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
 
-.flip-card:hover .flip-inner {
-  transform: rotateY(180deg);
-}
+        .page::-webkit-scrollbar {
+            width: 8px;
+        }
 
-.flip-front, .flip-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  backface-visibility: hidden;
-  padding: 14px;
-  box-sizing: border-box;
-  font-size: 15px;
-}
+        .page::-webkit-scrollbar-track {
+            background: rgba(255,23,68,0.1);
+            border-radius: 10px;
+        }
 
-/* Default dark card look (preview area inherits body) */
-.flip-front {
-  background: rgba(255,0,60,0.08);
-  border: 1px solid rgba(255,0,60,0.18);
-  box-shadow: 0 6px 18px rgba(255,0,60,0.08);
-  color: #240006;
-}
+        .page::-webkit-scrollbar-thumb {
+            background: rgba(255,23,68,0.5);
+            border-radius: 10px;
+        }
 
-.flip-back {
-  background: rgba(0,0,0,0.85);
-  border: 1px solid rgba(255,0,60,0.18);
-  transform: rotateY(180deg);
-  color: #ffdfe6;
-}
+        .page::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,23,68,0.7);
+        }
 
-/* Buttons */
-button {
-  margin-top: 20px;
-  padding: 12px 22px;
-  font-size: 16px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  background: linear-gradient(45deg, #ff003c, #ff4d6d);
-  color: white;
-  box-shadow: 0 0 20px rgba(255,0,60,0.4);
-}
+        .left-page {
+            left: 0;
+            transform-origin: right center;
+            transform: rotateY(-25deg);
+            transition: transform 0.8s ease-in-out;
+        }
 
-button:hover { transform: scale(1.04); }
+        .right-page {
+            right: 0;
+            transform-origin: left center;
+            transform: rotateY(25deg);
+            transition: transform 0.8s ease-in-out;
+        }
 
-/* Booklet layout */
-.book {
-  width: 92%;
-  max-width: 1000px;
-  margin: 26px auto;
-  display: flex;
-  gap: 20px;
-  align-items: stretch;
-  perspective: 1400px;
-}
-.page {
-  flex: 1 1 0;
-  background: linear-gradient(180deg,#fffefc,#fbf7f2);
-  color: #1b1b1b;
-  border-radius: 12px;
-  padding: 22px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.6);
-  transform-origin: left center;
-}
-.spine {
-  width: 18px;
-  background: linear-gradient(90deg,#2b0a0a,#3a1111);
-  border-radius: 6px;
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
-}
+        .book.active .left-page {
+            transform: rotateY(0deg);
+        }
 
-/* Make cards look like paper inside the page */
-.page .flip-front {
-  background: linear-gradient(180deg,#fff,#fffef8);
-  border: 1px solid rgba(0,0,0,0.06);
-  color: #1b1b1b;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-}
-.page .flip-back {
-  background: linear-gradient(180deg,#fffef8,#fff);
-  border: 1px solid rgba(0,0,0,0.06);
-  color: #111;
-}
+        .book.active .right-page {
+            transform: rotateY(0deg);
+        }
 
-/* Password Section inside page */
-#passwordSection { margin-top: 6px; }
+        .spine {
+            position: absolute;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(90deg, #1a0a0a, #3a1a1a, #1a0a0a);
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            border-radius: 2px;
+            z-index: 10;
+        }
 
-input {
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(0,0,0,0.08);
-  margin-top: 10px;
-  text-align: center;
-  width: 160px;
-}
+        .page h2 {
+            color: #ff1744;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid rgba(255,23,68,0.5);
+            padding-bottom: 15px;
+        }
 
-#allCards { display: none; }
+        .page h3 {
+            color: #ff6b9d;
+            margin: 20px 0 10px 0;
+            font-size: 18px;
+        }
 
-#unlockMsg {
-  display: none;
-  font-size: 22px;
-  margin-top: 18px;
-  color: #8b2a2a;
-}
+        .message-card {
+            background: linear-gradient(135deg, rgba(255,23,68,0.1), rgba(255,107,157,0.05));
+            border: 1px solid rgba(255,23,68,0.2);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
 
-#error { color: #b22a2a; margin-top: 10px; }
-</style>
+        .message-card:hover {
+            background: linear-gradient(135deg, rgba(255,23,68,0.15), rgba(255,107,157,0.1));
+            border-color: rgba(255,23,68,0.4);
+            box-shadow: 0 5px 20px rgba(255,23,68,0.2);
+        }
+
+        .message-card .label {
+            color: #ff1744;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .message-card .content {
+            color: #e0e0e0;
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: left;
+            font-style: italic;
+        }
+
+        /* Navigation Buttons */
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #ff1744, #ff6b9d);
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255,23,68,0.4);
+            z-index: 20;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 8px 30px rgba(255,23,68,0.6);
+        }
+
+        .nav-button:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .prev-btn {
+            left: -30px;
+        }
+
+        .next-btn {
+            right: -30px;
+        }
+
+        /* Controls */
+        .controls {
+            text-align: center;
+            margin: 30px 0 20px 0;
+        }
+
+        .unlock-btn, .view-btn {
+            background: linear-gradient(135deg, #ff1744, #ff6b9d);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255,23,68,0.3);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .unlock-btn:hover, .view-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(255,23,68,0.5);
+        }
+
+        .unlock-btn:active, .view-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Input Styling */
+        input {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,23,68,0.3);
+            background: rgba(255,23,68,0.05);
+            color: white;
+            text-align: center;
+            width: 200px;
+            margin: 10px 0;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: rgba(255,23,68,0.6);
+            background: rgba(255,23,68,0.1);
+            box-shadow: 0 0 15px rgba(255,23,68,0.2);
+        }
+
+        /* Error Message */
+        #error {
+            color: #ff6b9d;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        #unlockMsg {
+            display: none;
+            font-size: 28px;
+            margin-top: 20px;
+            color: #ff1744;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        #passwordSection, #allCards {
+            display: none;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 15px;
+            font-size: 14px;
+            color: rgba(255,23,68,0.6);
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .book-container {
+                height: auto;
+                max-width: 100%;
+            }
+
+            .page {
+                position: static;
+                width: 100%;
+                margin: 20px 0;
+                transform: none !important;
+            }
+
+            .spine {
+                display: none;
+            }
+
+            .nav-button {
+                position: static;
+                display: inline-block;
+                margin: 10px;
+                width: 45px;
+                height: 45px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .left-page, .right-page {
+                transform: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>My Gifts For You 🖤</h1>
+<h1>💌 My Gifts For You 🖤</h1>
 
 <div class="container">
+    <div class="book-container">
+        <div class="spine"></div>
+        
+        <div class="book active">
+            <!-- Left Page -->
+            <div class="page left-page">
+                <h2>📖 Preview</h2>
+                
+                <div class="message-card">
+                    <div class="label">🌹 Eternal Rose</div>
+                    <div class="content">My Promise to you that i will be Forever Yours</div>
+                </div>
 
-<!-- Booklet: left page (preview) + spine + right page (all cards) -->
-<div class="book">
-  <div class="page" id="leftPage">
-    <h2 style="margin-top:0;color:#8b2a2a;">Preview</h2>
+                <div class="message-card">
+                    <div class="label">🍪 Cheezy Balls</div>
+                    <div class="content">At first i thought i should get you a chocolate but then i remembered that you dont like it so here we are i am giving you your favorite cheezy balls i hope you like it</div>
+                </div>
 
-    <!-- Preview Cards -->
-    <div id="previewCards" class="cards">
+                <div class="message-card">
+                    <div class="label">💌 Love Letter</div>
+                    <div class="content">I know that you would have like a physical one but i wanna give you something that you can always keep with you</div>
+                </div>
 
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">🌹 Eternal Rose</div>
-          <div class="flip-back">My Promise to you that i will be Forever Yours</div>
+                <div class="page-number">Page 1</div>
+            </div>
+
+            <!-- Right Page -->
+            <div class="page right-page">
+                <h2>🔐 Unlock Memories</h2>
+                
+                <div id="passwordSection">
+                    <h3>Enter Our Anniversary 🖤</h3>
+                    <input type="password" id="passwordInput" placeholder="DDMMYYYY">
+                    <br>
+                    <button class="unlock-btn" onclick="checkPassword()">Unlock 🖤</button>
+                    <div id="error"></div>
+                </div>
+
+                <!-- All Messages (Hidden until unlocked) -->
+                <div id="allCards">
+                    <div class="message-card">
+                        <div class="label">💝 Our First Meet</div>
+                        <div class="content">I Still Remember When I First Saw You. This feels like yesterday when we first started talking. I still remember you wearing a black frock, black bottom and black duppatta. It feels like yesterday when i first hugged you. I hope you still remember all of it. Days that we spent together were the best days of my life.</div>
+                    </div>
+
+                    <div class="message-card">
+                        <div class="label">🍕 Date Invitation</div>
+                        <div class="content">WILL YOU GO ON A DATE WITH ME AFTER OUR EXAMS? 💕</div>
+                    </div>
+
+                    <div class="message-card">
+                        <div class="label">💍 Promise Card</div>
+                        <div class="content">IT'S MY WISH THAT WE SHARE OUR FUTURE TOGETHER LIKE REAL COUPLES. I HOPE THAT'S YOURS TOO. SO LET'S MAKE A PROMISE THAT WE WILL LOVE EACH OTHER NO MATTER WHAT.</div>
+                    </div>
+
+                    <div class="message-card">
+                        <div class="label">💬 My Letter To You</div>
+                        <div class="content">It's been 2 years and I can't imagine - to me it's just yesterday when we first met. I wanna say to you, I know during these days I wasn't able to do anything for you. I am really ashamed because of that. I will make up for that. I promise you. And I also know that I made you cry so many times. I will make up for that too. Speaking of which, I remember every second, every minute that we spent together. I really wanna say you thank you for everything you did. The person I am right now is because of you. You made me realize what it really means to love someone. I know you would have preferred a hand written letter but I wanted to show this. I know this isn't much but a token of love and gratitude from me. I wanted to give you a thing that you can always keep close to yourself. I just wanted you to know that I am so in love with you, I can't explain. I read a quote and it said "trust an overthinker when he says he loves you because they have thought about every reason not to". 🖤</div>
+                    </div>
+
+                    <div id="unlockMsg">🎉 Congratulations, you knew! 🎉<br>Happy Anniversary My Love 💕</div>
+                </div>
+
+                <div class="page-number">Page 2</div>
+            </div>
         </div>
-      </div>
 
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">cheezy balls </div>
-          <div class="flip-back">at first i thought i should get you a chocolate but then i remembered that you dont like it so here we are i am giving you your favorite cheezy balls i hope you like it </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">💌 Love Letter</div>
-          <div class="flip-back">i know that you would have like a physcial one but i wanna give you something that you can always keep with you</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="spine" aria-hidden="true"></div>
-
-  <div class="page" id="rightPage">
-    <h2 style="margin-top:0;color:#8b2a2a;">Booklet</h2>
-    <!-- Password & Unlock area inside right page -->
-    <div id="passwordSection">
-      <h3>Enter Our Anniversary 🖤</h3>
-      <input type="password" id="passwordInput" placeholder="DDMMYYYY">
-      <br>
-      <button onclick="checkPassword()">Unlock 🖤</button>
-      <div id="error"></div>
-    </div>
-
-    <!-- All Cards -->
-    <div id="allCards" class="cards">
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">Our first meet❤️</div>
-          <div class="flip-back">I Still Remember We I First Saw You this feels like yesterday when we first started talking i still remember you wearing a black frock,black bottom and black duppatta.It feels like yesterday when i first hugged you I hope you still remember all of it,days that we spent together those were the best days of my life </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">🍕 Date </div>
-          <div class="flip-back">WILL YOU GO ON A DATE WITH ME AFTER OUR EXAMS </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">💍 Promise Card</div>
-          <div class="flip-back">ITS MY WISH THAT WE SHARE OUR FUTURE TOGETHER LIKE A REAL COUPLES I HOPE THAT ITS YOURS TOO SO LETS MAKE A PROMISE THAT WE WILL LOVE EACHOTHER NO MATTER WHAT  </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">my letter to you 🖤</div>
-          <div class="flip-back">its been 2 year i cant imagine to me its jus yesterday when we first met i wanna say to you i know during these days i wasnt able to do anything for you i am really ashmed cuz of that i will make up to that i promise you that and i also know that i made you cry so many times i will make up to that also spekaing of which i Remember every sec every min that we spent together i really wanna say you thankyou for everything you did the person i am right now is because of you.You made me realise what it really means to love someone ik you would have preffered a hand written letter but i wanted to show this ik this isnt much but a token of love and gratitude from me i wanted o give you a thing that you can always keep close to yourself so i came up with this i jus wanted you to know that i am so in love with you i cant explain I read a quote and it said trust an overthinker when he says he loves you because they have thought about every reason not to </div>
-        </div>
-      </div>
-
+        <button class="nav-button prev-btn" onclick="previousPage()">‹</button>
+        <button class="nav-button next-btn" onclick="nextPage()">›</button>
     </div>
 
-    <div id="unlockMsg">Congratulations you knew ❤️</div>
-  </div>
-</div>
-
-<button onclick="showPassword()">View All Gift Cards 🎁</button>
-
+    <div class="controls">
+        <button class="view-btn" onclick="showPassword()">View All Gift Cards 🎁</button>
+    </div>
 </div>
 
 <script>
-/* Floating Hearts Generator */
-function createHeart() {
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerHTML = "❤";
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.animationDuration = (4 + Math.random() * 6) + "s";
-  document.body.appendChild(heart);
+    /* Floating Hearts Generator */
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        const hearts = ["❤", "💕", "💖", "💗"];
+        heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (4 + Math.random() * 6) + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 10000);
+    }
+    setInterval(createHeart, 800);
 
-  setTimeout(() => heart.remove(), 10000);
-}
-setInterval(createHeart, 800);
+    /* Password System */
+    const correctPassword = "04122025"; // coded password
 
-/* Password System */
-const correctPassword = "04122025"; // coded password
+    function showPassword() {
+        const ps = document.getElementById("passwordSection");
+        ps.style.display = "block";
+        const input = document.getElementById("passwordInput");
+        input.value = correctPassword;
+        setTimeout(() => checkPassword(), 350);
+    }
 
-function showPassword() {
-  // reveal password area then autofill and attempt unlock
-  const ps = document.getElementById("passwordSection");
-  ps.style.display = "block";
-  const input = document.getElementById("passwordInput");
-  input.value = correctPassword; // prefill coded password
-  // attempt unlock automatically for convenience
-  setTimeout(() => checkPassword(), 350);
-}
+    function checkPassword() {
+        const input = document.getElementById("passwordInput").value;
+        if (input === correctPassword) {
+            document.getElementById("allCards").style.display = "block";
+            document.getElementById("passwordSection").style.display = "none";
+            document.getElementById("unlockMsg").style.display = "block";
+            document.getElementById("error").innerText = "";
+        } else {
+            document.getElementById("error").innerText = "Wrong anniversary 🖤";
+        }
+    }
 
-function checkPassword() {
-  const input = document.getElementById("passwordInput").value;
+    /* Page Navigation */
+    let currentPage = 1;
+    const totalPages = 2;
 
-  if (input === correctPassword) {
-    document.getElementById("allCards").style.display = "flex";
-    document.getElementById("passwordSection").style.display = "none";
-    document.getElementById("unlockMsg").style.display = "block";
-    document.getElementById("error").innerText = "";
-  } else {
-    document.getElementById("error").innerText = "Wrong anniversary 🖤";
-  }
-}
+    function nextPage() {
+        if (currentPage < totalPages) {
+            currentPage++;
+            updatePageDisplay();
+        }
+    }
+
+    function previousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            updatePageDisplay();
+        }
+    }
+
+    function updatePageDisplay() {
+        const book = document.querySelector('.book');
+        const leftPage = document.querySelector('.left-page');
+        const rightPage = document.querySelector('.right-page');
+
+        if (currentPage === 1) {
+            leftPage.style.transform = 'rotateY(-25deg)';
+            rightPage.style.transform = 'rotateY(25deg)';
+        } else {
+            leftPage.style.transform = 'rotateY(-155deg)';
+            rightPage.style.transform = 'rotateY(155deg)';
+        }
+    }
 </script>
 
 </body>
