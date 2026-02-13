@@ -3,79 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine's Day</title>
+    <title>Valentine's Day Digital Book</title>
     <style>
         body {
-            background-color: #2c2c34;
-            color: white;
-            font-family: 'Arial', sans-serif;
+            background-color: #ffcccd;
+            font-family: Arial, sans-serif;
+            color: #c71585;
             text-align: center;
-            overflow: hidden;
         }
-        .nav-buttons {
-            margin: 20px;
+        header {
+            background: #ff69b4;
+            padding: 20px;
+            font-size: 2em;
         }
-        .button {
-            background-color: #ff6b81;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 12px;
+        .content {
+            margin: 20px auto;
+            max-width: 600px;
         }
-        .heart {
-            animation: float 6s infinite;
+        footer {
+            background: #ff69b4;
+            padding: 10px;
             position: fixed;
-            width: 50px;
-            height: 50px;
-            background: url('path/to/heart.gif') no-repeat center center;
-            background-size: contain;
+            bottom: 0;
+            width: 100%;
         }
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0); }
+        .gif {
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
-    <h1>Happy Valentine's Day!</h1>
-    <div id="password-protection">
-        <input type="password" id="password" placeholder="Enter the password" />
+    <header>
+        Happy Valentine's Day!
+    </header>
+    <div class="content">
+        <h1>Welcome to Your Valentine's Day Digital Book</h1>
+        <p>Unlock the joy of love and romance with our special collection!</p>
+        <input type="password" id="password" placeholder="Enter Password">
         <button onclick="checkPassword()">Submit</button>
+        <div id="protectedContent" style="display:none;">
+            <h2>Messages of Love</h2>
+            <p>Here are some beautiful Valentine's messages:</p>
+            <ul>
+                <li>You have my heart.</li>
+                <li>Love is in the air!</li>
+                <li>Happy Valentine's Day!</li>
+            </ul>
+            <div class="gif">
+                <img src="your-animation.gif" alt="Valentine's GIF">
+            </div>
+        </div>
     </div>
-    <div class="nav-buttons">
-        <button class="button" onclick="location.href='#message1'">Message 1</button>
-        <button class="button" onclick="location.href='#message2'">Message 2</button>
-        <button class="button" onclick="location.href='#message3'">Message 3</button>
-        <button class="button" onclick="location.href='#message4'">Message 4</button>
-        <button class="button" onclick="location.href='#message5'">Message 5</button>
-        <button class="button" onclick="location.href='#message6'">Message 6</button>
-        <button class="button" onclick="location.href='#message7'">Message 7</button>
-    </div>
-
-    <div id="messages">
-        <section id="message1">Message 1: "Love is all you need!"</section>
-        <section id="message2">Message 2: "You're the peanut butter to my jelly."</section>
-        <section id="message3">Message 3: "You're the icing on my cupcake!"</section>
-        <section id="message4">Message 4: "Together, we make a perfect pair."</section>
-        <section id="message5">Message 5: "You make my heart smile!"</section>
-        <section id="message6">Message 6: "You're my favorite distraction."</section>
-        <section id="message7">Message 7: "Love you to the moon and back!"</section>
-    </div>
-
-    <div class="heart"></div>
-
+    <footer>
+        &copy; 2026 Valentine's Day Celebration
+    </footer>
     <script>
         function checkPassword() {
-            const password = document.getElementById('password').value;
-            if (password === 'your_password_here') {
-                document.getElementById('password-protection').style.display = 'none';
+            const userPassword = document.getElementById('password').value;
+            if (userPassword === '04122023') {
+                document.getElementById('protectedContent').style.display = 'block';
             } else {
                 alert('Incorrect password. Please try again.');
             }
