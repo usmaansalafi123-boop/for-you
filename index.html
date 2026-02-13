@@ -3,25 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You</title>
+    <title>Individual Message Pages</title>
     <style>
         body {
-            background-color: #333;
-            color: #fff;
             font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .navigation {
+            margin: 20px 0;
+        }
+        .gif {
+            max-width: 100%;
+            height: auto;
+        }
+        .password-protect {
+            display: none;
+        }
+        .message {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to Your Valentine's Messages</h1>
-    <ul>
-        <li><a href="eternal-rose.html">Eternal Rose</a></li>
-        <li><a href="cheezy-balls.html">Cheezy Balls</a></li>
-        <li><a href="love-letter.html">Love Letter</a></li>
-        <li><a href="our-first-meet.html">Our First Meet</a></li>
-        <li><a href="date-invitation.html">Date Invitation</a></li>
-        <li><a href="promise-card.html">Promise Card</a></li>
-        <li><a href="my-letter.html">My Letter</a></li>
-    </ul>
+    <h1>Welcome to the Individual Message Page!</h1>
+    <div class="navigation">
+        <button onclick="showMessage('message1')">Message 1</button>
+        <button onclick="showMessage('message2')">Message 2</button>
+        <button onclick="showMessage('message3')">Message 3</button>
+    </div>
+    <img class="gif" src="https://media.giphy.com/media/3o6Zt7KD9y5TjpBFuU/giphy.gif" alt="Cute GIF">
+
+    <div class="password-protect">
+        <input type="password" id="passwordInput" placeholder="Enter password" />
+        <button onclick="checkPassword()">Submit</button>
+    </div>
+
+    <div id="message1" class="message">
+        <h2>Message 1</h2>
+        <p>This is the content of message 1!</p>
+        <img class="gif" src="https://media.giphy.com/media/l1J9Q8bPLoX3x2V5W/giphy.gif" alt="Cute GIF">
+    </div>
+    <div id="message2" class="message">
+        <h2>Message 2</h2>
+        <p>This is the content of message 2!</p>
+        <img class="gif" src="https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif" alt="Cute GIF">
+    </div>
+    <div id="message3" class="message">
+        <h2>Message 3</h2>
+        <p>This is the content of message 3!</p>
+        <img class="gif" src="https://media.giphy.com/media/3oEjI6SIIHP2SgSDOc/giphy.gif" alt="Cute GIF">
+    </div>
+
+    <script>
+        function showMessage(messageId) {
+            var messages = document.getElementsByClassName('message');
+            for (var i = 0; i < messages.length; i++) {
+                messages[i].style.display = 'none';
+            }
+            document.getElementById(messageId).style.display = 'block';
+        }
+        function checkPassword() {
+            var passwordInput = document.getElementById('passwordInput').value;
+            if (passwordInput === 'your_password') {  // Replace with your actual password
+                document.querySelector('.password-protect').style.display = 'none';
+            } else {
+                alert('Incorrect password!');
+            }
+        }
+    </script>
 </body>
 </html>
